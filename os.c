@@ -80,6 +80,7 @@ void OS_Init(void){
 	Init_LCD();
 	CurrentSize = 0;
 	OS_FIFO_Init();
+	OS_EnableInterrupts();
 }
 
 void SetInitialStack(int i){

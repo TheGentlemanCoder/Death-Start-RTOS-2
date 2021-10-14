@@ -18,6 +18,6 @@ void Main_Thread_One(void) {
 		// check if button still pressed
 		if (GPIO_PORTD_DATA_R & 0x01) {
 			OS_FIFO_Put(DIP_VALUES);
-		}
-	}
+		}   
+}
 }
