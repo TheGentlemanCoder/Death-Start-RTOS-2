@@ -80,6 +80,7 @@ void OS_Init(void){
 	Init_LCD();
 	CurrentSize = 0;
 	OS_FIFO_Init();
+	OS_EnableInterrupts();
 }
 
 void SetInitialStack(int i){
@@ -176,8 +177,8 @@ void OS_Wait(int32_t *s){
 }
 
 void OS_Signal(int32_t *s){
-	tcbType* pt;
 	OS_DisableInterrupts();
+	tcbType* pt;
 	(*s) = (*s) + 1;
 	if ((*s) <= 0) {
 		pt = RunPt->next;
