@@ -3,6 +3,5 @@
 #include "fifo.h"
 
 void Main_Thread_Two(void) {
-	GPIOF->DATA |= 0X0E & OS_FIFO_Get();             // loading port F
-	
+	GPIOF->DATA |= 0X0E & OS_FIFO_Peek();             // loading port F
 }
