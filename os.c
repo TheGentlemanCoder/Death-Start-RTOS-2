@@ -1,6 +1,10 @@
 #include "TM4C123GH6PM.h"
 #include "tm4c123gh6pm_def.h"
 #include "LCD.h"
+#include "main_thread_one.h"
+#include "main_thread_two.h"
+#include "main_thread_three.h"
+#include "globals.h"
 
 /* #define NVIC_ST_CTRL_R          (*((volatile uint32_t *)0xE000E010))
 #define NVIC_ST_CTRL_CLK_SRC    0x00000004  // Clock Source
@@ -73,6 +77,7 @@ void OS_Init(void){
 	PortFD_Init(); //Setting up RGB output
 	Init_LCD_Ports(); // Init LCD
 	Init_LCD();
+	CurrentSize = 0;
 }
 
 void SetInitialStack(int i){
@@ -198,7 +203,26 @@ void OS_InitSemaphore(int32_t *s, int32_t initialValue) {
 	*s = initialValue;
 	OS_EnableInterrupts();
 }
+/*
+void storeColors(int32_t color)(){
+	if(CurrentColor == -1){
+		CurrentColor = color;
+	}
+	else if(NextColor == -1){
+		NextColor = color;
+	}
+	else{
+		OS_FIFO_PUT(color);
+	}
+}
 
+void incrementColors(){
+	if(NextColor
+	CurrentColor = NextColor;
+	NextColor = OS_FIFO_Get();
+	
+}
+*/
 #define TIMESLICE               32000
 
 int main(void){

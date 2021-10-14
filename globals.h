@@ -1,4 +1,5 @@
 // global pointers
+#include <stdint.h>
 extern uint32_t volatile *PutPt;	// put next
 extern uint32_t volatile *GetPt;	// get next
 

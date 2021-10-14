@@ -1,5 +1,4 @@
 #include "TM4C123GH6PM.h"
-
 #include "globals.h"
 #include "fifo.h"
 
