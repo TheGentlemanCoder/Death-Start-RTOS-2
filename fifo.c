@@ -48,3 +48,55 @@ uint32_t OS_FIFO_Get(void) {
 	OS_Signal(&FIFOMutex);
 	return data;
 }
+
+int OS_FIFO_Full(void) {
+	return CurrentSize == FIFOSIZE;
+}
+
+int OS_FIFO_Empty(void) {
+	return CurrentSize == 0;
+}
+
+// Get the data at GetPt's position
+// without changing the FIFO.
+uint32_t OS_FIFO_Peek() {
+	uint32_t data;
+	OS_Wait(&CurrentSize);
+	OS_Wait(&FIFOMutex);
+
+	// FIFO has at least one item, exclusive access
+	
+	data = *(GetPt);
+	
+	return data;
+}
+
+// Get the data at GetPt's next position
+// without changing the FIFO
+
+// Returns -1 if FIFO is empty after next
+// call to OS_FIFO_Get()
+int32_t OS_FIFO_Double_Peek() {
+	uint32_t data;
+	uint32_t* pt;
+	
+	OS_Wait(&CurrentSize);
+	OS_Wait(&FIFOMutex);
+	
+	// FIFO has at least one item, exclusive access
+	
+	if (CurrentSize == 1) {
+		// FIFO only had one item, return -1
+		return -1;
+	}
+	
+	// FIFO has at least two items
+	
+	pt = GetPt + 1;
+	if (pt == &FIFO[FIFOSIZE]) {
+		pt = &FIFO[0]; // wrap
+	}
+	
+	data = *(pt);
+	return (int32_t) data;
+}
