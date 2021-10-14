@@ -1,4 +1,10 @@
 *
+!RTE/
+RTE/*
+!RTE/Device/
+RTE/Device/*
+!RTE/Device/TM4C123GH6PM/
+!my.ini
 !*.s
 !*.c
 !*.h
