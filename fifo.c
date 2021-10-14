@@ -18,7 +18,7 @@ void OS_FIFO_Init(void) {
 }
 
 int OS_FIFO_Put(uint32_t data) {
-	if (CurrentSize == FIFOSIZE) {
+	if (CurrentSize == FIFOSIZE ) {
 		LostData++;	// error
 		return -1;
 	}
@@ -27,7 +27,7 @@ int OS_FIFO_Put(uint32_t data) {
 	PutPt++;					// place for next
 	
 	if (PutPt == &FIFO[FIFOSIZE]) {
-		PutPt = &FIFO[0];
+		PutPt = &FIFO[0]; // wrap
 	}
 	
 	OS_Signal(&CurrentSize);
