@@ -1,8 +1,6 @@
 #include "TM4C123GH6PM.h"
 #include "tm4c123gh6pm_def.h"
-#include "main_thread_one.c"
-#include "main_thread_two.c"
-#include "main_thread_three.c"
+#include "LCD.h"
 
 /* #define NVIC_ST_CTRL_R          (*((volatile uint32_t *)0xE000E010))
 #define NVIC_ST_CTRL_CLK_SRC    0x00000004  // Clock Source
@@ -23,6 +21,11 @@ int32_t StartCritical(void);
 void EndCritical(int32_t primask);
 void Clock_Init(void);
 void StartOS(void);
+
+// Main Threads
+void Main_Thread_One(void);
+void Main_Thread_Two(void);
+void Main_Thread_Three(void);
 
 #define NUMTHREADS  3        // maximum number of threads
 #define STACKSIZE   100      // number of 32-bit words in stack
@@ -68,6 +71,8 @@ void OS_Init(void){
   NVIC_ST_CURRENT_R = 0;      // any write to current clears it
   NVIC_SYS_PRI3_R =(NVIC_SYS_PRI3_R&0x00FFFFFF)|0xE0000000; // priority 7
 	PortFD_Init(); //Setting up RGB output
+	Init_LCD_Ports(); // Init LCD
+	Init_LCD();
 }
 
 void SetInitialStack(int i){
