@@ -4,7 +4,7 @@ extern uint32_t volatile *PutPt;	// put next
 extern uint32_t volatile *GetPt;	// get next
 
 // FIFO
-#define FIFOSIZE 8		// CurrentColor + NextColor + 8 colors in FIFO = 10
+#define FIFOSIZE 10		// Colors in FIFO = 10
 extern uint32_t FIFO[FIFOSIZE];
 extern int32_t CurrentSize;		// 0 means FIFO is empty
 extern int32_t FIFOMutex;			// exclusive access to FIFO

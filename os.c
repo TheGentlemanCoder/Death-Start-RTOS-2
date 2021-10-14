@@ -5,6 +5,7 @@
 #include "main_thread_two.h"
 #include "main_thread_three.h"
 #include "globals.h"
+#include "fifo.h"
 
 /* #define NVIC_ST_CTRL_R          (*((volatile uint32_t *)0xE000E010))
 #define NVIC_ST_CTRL_CLK_SRC    0x00000004  // Clock Source
@@ -78,6 +79,7 @@ void OS_Init(void){
 	Init_LCD_Ports(); // Init LCD
 	Init_LCD();
 	CurrentSize = 0;
+	OS_FIFO_Init();
 }
 
 void SetInitialStack(int i){
