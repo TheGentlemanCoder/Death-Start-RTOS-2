@@ -1,8 +1,8 @@
 #include "TM4C123GH6PM.h"
 #include "tm4c123gh6pm_def.h"
-#include "main_thread_one.c"
-#include "main_thread_two.c"
-#include "main_thread_three.c"
+#include "main_thread_one.h"
+#include "main_thread_two.h"
+#include "main_thread_three.h"
 #include "globals.h"
 
 /* #define NVIC_ST_CTRL_R          (*((volatile uint32_t *)0xE000E010))
@@ -69,8 +69,6 @@ void OS_Init(void){
   NVIC_ST_CURRENT_R = 0;      // any write to current clears it
   NVIC_SYS_PRI3_R =(NVIC_SYS_PRI3_R&0x00FFFFFF)|0xE0000000; // priority 7
 	PortFD_Init(); //Setting up RGB output
-	CurrentColor = -1;
-	NextColor = -1;
 	CurrentSize = 0;
 }
 
@@ -197,7 +195,7 @@ void OS_InitSemaphore(int32_t *s, int32_t initialValue) {
 	*s = initialValue;
 	OS_EnableInterrupts();
 }
-
+/*
 void storeColors(int32_t color)(){
 	if(CurrentColor == -1){
 		CurrentColor = color;
@@ -216,7 +214,7 @@ void incrementColors(){
 	NextColor = OS_FIFO_Get();
 	
 }
-
+*/
 #define TIMESLICE               32000
 
 int main(void){
