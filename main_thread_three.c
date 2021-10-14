@@ -67,7 +67,7 @@ void Output_Color_LCD(int32_t color) {
 
 void Main_Thread_Three(void) {
 	// Step #1: Clear LCD
-	WriteCMD(0x01);
+	//WriteCMD(0x01);
 	OS_Sleep(2); // sleep for 4 ms 
 	
 	char* full = "Buffer full!";
