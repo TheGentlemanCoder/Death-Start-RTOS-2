@@ -6,6 +6,7 @@
 #include "main_thread_three.h"
 #include "globals.h"
 #include "fifo.h"
+#include "os.h"
 
 /* #define NVIC_ST_CTRL_R          (*((volatile uint32_t *)0xE000E010))
 #define NVIC_ST_CTRL_CLK_SRC    0x00000004  // Clock Source
@@ -45,6 +46,7 @@ tcbType tcbs[NUMTHREADS];
 tcbType *RunPt;
 int32_t Stacks[NUMTHREADS][STACKSIZE];
 int32_t GBR;
+int32_t sLCD;
 
 void PortFD_Init(){
  //Setting up RGB output
@@ -78,7 +80,7 @@ void OS_Init(void){
 	PortFD_Init(); //Setting up RGB output
 	Init_LCD_Ports(); // Init LCD
 	Init_LCD();
-	CurrentSize = 0;
+	OS_InitSemaphore(&sLCD, 0);
 	OS_FIFO_Init();
 	OS_EnableInterrupts();
 }
@@ -206,31 +208,12 @@ void OS_InitSemaphore(int32_t *s, int32_t initialValue) {
 	*s = initialValue;
 	OS_EnableInterrupts();
 }
-/*
-void storeColors(int32_t color)(){
-	if(CurrentColor == -1){
-		CurrentColor = color;
-	}
-	else if(NextColor == -1){
-		NextColor = color;
-	}
-	else{
-		OS_FIFO_PUT(color);
-	}
-}
 
-void incrementColors(){
-	if(NextColor
-	CurrentColor = NextColor;
-	NextColor = OS_FIFO_Get();
-	
-}
-*/
 #define TIMESLICE               32000
 
 int main(void){
+	OS_AddThreads(&Main_Thread_One, &Main_Thread_Two, &Main_Thread_Three);
   OS_Init();           // initialize, disable interrupts, 16 MHz
-  OS_AddThreads(&Main_Thread_One, &Main_Thread_Two, &Main_Thread_Three);
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;             // this never executes
 }

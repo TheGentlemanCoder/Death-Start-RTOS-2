@@ -13,12 +13,16 @@ void OS_FIFO_Init(void) {
 	PutPt = &FIFO[0];
 	GetPt = &FIFO[0];
 	OS_InitSemaphore(&CurrentSize, 0);
-	OS_InitSemaphore(&FIFOMutex, 1);
+	OS_InitSemaphore(&FIFOMutex, 0);
 	LostData = 0;
+	
+	for (int i = 0; i < FIFOSIZE; ++i) {
+		FIFO[i] = 0;
+	}
 }
 
 int OS_FIFO_Put(uint32_t data) {
-	if (CurrentSize == FIFOSIZE ) {
+	if (CurrentSize == FIFOSIZE) {
 		LostData++;	// error
 		return -1;
 	}
@@ -61,12 +65,18 @@ int OS_FIFO_Empty(void) {
 // without changing the FIFO.
 uint32_t OS_FIFO_Peek() {
 	uint32_t data;
-	OS_Wait(&CurrentSize);
 	OS_Wait(&FIFOMutex);
 
-	// FIFO has at least one item, exclusive access
+	// exclusive access to FIFO
+	
+	if (OS_FIFO_Empty()) {
+		// Not enough elements in FIFO
+		OS_Signal(&FIFOMutex);
+		return 0;
+	}
 	
 	data = *(GetPt);
+	OS_Signal(&FIFOMutex);
 	
 	return data;
 }
@@ -76,18 +86,17 @@ uint32_t OS_FIFO_Peek() {
 
 // Returns -1 if FIFO is empty after next
 // call to OS_FIFO_Get()
-int32_t OS_FIFO_Double_Peek() {
+uint32_t OS_FIFO_Double_Peek() {
 	uint32_t data;
 	uint32_t* pt;
-	
-	OS_Wait(&CurrentSize);
 	OS_Wait(&FIFOMutex);
 	
-	// FIFO has at least one item, exclusive access
+	// exclusive access to FIFO
 	
-	if (CurrentSize == 1) {
-		// FIFO only had one item, return -1
-		return -1;
+	if (OS_FIFO_Empty() || CurrentSize == 1) {
+		// Not enough elements in FIFO
+		OS_Signal(&FIFOMutex);
+		return 0;
 	}
 	
 	// FIFO has at least two items
@@ -98,5 +107,7 @@ int32_t OS_FIFO_Double_Peek() {
 	}
 	
 	data = *(pt);
-	return (int32_t) data;
+	OS_Signal(&FIFOMutex);
+	
+	return data;
 }

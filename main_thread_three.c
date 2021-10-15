@@ -3,6 +3,7 @@
 #include "globals.h"
 #include "LCD.h"
 #include "fifo.h"
+#include "os.h"
 
 void Output_Color_LCD(int32_t color) {
   // colors
@@ -20,7 +21,7 @@ void Output_Color_LCD(int32_t color) {
 	char* off = "Off";
 	char* green = "Grn";
 	char* red = "Red";
-	char* blue = "Blu";
+	char* blue = "Blue";
 	char* purple = "Prpl";
 	char* yellow = "Yelw";
 	char* cyan = "Cyan";
@@ -68,7 +69,7 @@ void Output_Color_LCD(int32_t color) {
 void Main_Thread_Three(void) {
 	// Step #1: Clear LCD
 	//WriteCMD(0x01);
-	OS_Sleep(2); // sleep for 4 ms 
+	//OS_Sleep(2); // sleep for 4 ms 
 	
 	char* full = "Buffer full!";
 	char* empty = "Input a color!";
