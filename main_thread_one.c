@@ -14,6 +14,7 @@ void Main_Thread_One(void) {
 	// Step #2: Is SW5 pressed and debounced?
 	if (GPIO_PORTD_DATA_R & 0x01) {
 		OS_Sleep(5);	// 10 ms
+		GPIO_PORTD_DATA_R |= 0x0E & DIP_VALUES;
 		
 		// check if button still pressed
 		if (GPIO_PORTD_DATA_R & 0x01) {

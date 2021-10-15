@@ -15,3 +15,6 @@ extern uint32_t NextColor;
 
 // Input values
 extern uint32_t DIP_VALUES;
+
+// LCD
+extern int32_t sLCD;
