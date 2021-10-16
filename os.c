@@ -162,7 +162,6 @@ void Scheduler(void) {
 }
 
 void OS_Suspend(void) {
-	NVIC_ST_CURRENT_R = 0;	// reset counter
 	NVIC_INT_CTRL_R |= 0x04000000; // trigger SysTick
 }
 
