@@ -13,7 +13,7 @@ void OS_FIFO_Init(void) {
 	PutPt = &FIFO[0];
 	GetPt = &FIFO[0];
 	OS_InitSemaphore(&CurrentSize, 0);
-	OS_InitSemaphore(&FIFOMutex, 1);
+	OS_InitSemaphore(&FIFOMutex, 0);
 	LostData = 0;
 	
 	for (int i = 0; i < FIFOSIZE; ++i) {
